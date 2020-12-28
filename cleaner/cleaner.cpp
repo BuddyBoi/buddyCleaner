@@ -57,21 +57,6 @@ namespace Cleaner
 	static bool b_clear_temp = false;
 	static bool b_remove_hibernation = false;
 
-	//Remove files. Mostly just temp files for now
-	void Cleanup()
-	{
-		vec_clear_dirs.push_back(Util::s_directory_temp);
-		vec_clear_dirs.push_back("C:\\Windows\\Temp");
-		vec_clear_dirs.push_back("C:\\Windows\\SoftwareDistribution\\Download");
-		vec_clear_dirs.push_back("C:\\Windows\\Minidump");
-		
-		//Iterate directory list and clear each
-		for (std::string s : vec_clear_dirs)
-		{
-			Util::directory_clear(s);
-		}
-	}
-
 	//Removing hibernation from your computer frees up a lot of space
 	void remove_hibernation()
 	{
@@ -96,6 +81,31 @@ namespace Cleaner
 			Util::log("Failed to find hibernation file");
 		}
 	}
+
+	//Remove all temp files in temp directories
+	void remove_temp_files()
+	{
+		vec_clear_dirs.push_back(Util::s_directory_temp);
+		vec_clear_dirs.push_back("C:\\Windows\\Temp");
+		vec_clear_dirs.push_back("C:\\Windows\\SoftwareDistribution\\Download");
+		vec_clear_dirs.push_back("C:\\Windows\\Minidump");
+
+		//Iterate directory list and clear each
+		for (std::string s : vec_clear_dirs)
+		{
+			Util::directory_clear(s);
+		}
+	}
+
+	//If setting is enabled do operation
+	void Cleanup()
+	{
+		if (b_remove_hibernation)
+			remove_hibernation();		
+
+		if (b_clear_temp)
+			remove_temp_files();
+	}	
 }
 
 int main()
