@@ -95,10 +95,13 @@ int main()
 	//Display Message
 	std::cout << "==Buddy cleaner==\n\nIt is recommended to run this program as admin.\nDoing so allows for more files to be cleaned.\nThe following questions are to be answered as 1=yes, 0=no\n\n";
 	
-	Cleaner::b_clear_temp = true;
-	Cleaner::b_remove_hibernation = true;
-	Cleaner::Cleanup();
+	std::cout << "Clear temporary folders=";
+	std::cin >> Cleaner::b_clear_temp;
 
+	std::cout << "Disable hibernation mode=";
+	std::cin >> Cleaner::b_remove_hibernation;
+
+	Cleaner::Cleanup();
 	std::cout << "Program finished.\n";
 
 	//Never exit program
