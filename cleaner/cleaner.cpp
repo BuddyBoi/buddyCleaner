@@ -12,10 +12,13 @@ namespace Util
 	static std::string s_directory_temp = getenv("TEMP");
 	static auto i_computer_processor_cores = getenv("NUMBER_OF_PROCESSORS");
 
+	//checks if the path (file or directory) exists
 	bool path_exists(std::string path)
 	{
 		return std::experimental::filesystem::exists(path);
 	}
+
+	//Weak logging system
 	void log(std::string message)
 	{
 		if (!b_logging_enabled)
@@ -23,6 +26,8 @@ namespace Util
 
 		std::cout << ("Log: %s", message) << '\n';
 	}
+
+	//Iterate a directory and clear it's contents
 	void directory_clear(std::string directory)
 	{
 		for (const auto &entry : std::experimental::filesystem::directory_iterator(directory))
@@ -45,19 +50,22 @@ namespace Util
 
 namespace Cleaner
 {
+	//List of directories to clear
 	static std::vector<std::string> vec_clear_dirs;
+
+	//Cleaner settings
 	static bool b_clear_temp = false;
 	static bool b_remove_hibernation = false;
 
 	//Remove files. Mostly just temp files for now
 	void Cleanup()
 	{
-		//List of directories to empty
 		vec_clear_dirs.push_back(Util::s_directory_temp);
 		vec_clear_dirs.push_back("C:\\Windows\\Temp");
 		vec_clear_dirs.push_back("C:\\Windows\\SoftwareDistribution\\Download");
 		vec_clear_dirs.push_back("C:\\Windows\\Minidump");
 		
+		//Iterate directory list and clear each
 		for (std::string s : vec_clear_dirs)
 		{
 			Util::directory_clear(s);
@@ -95,12 +103,14 @@ int main()
 	//Display Message
 	std::cout << "==Buddy cleaner==\n\nIt is recommended to run this program as admin.\nDoing so allows for more files to be cleaned.\nThe following questions are to be answered as 1=yes, 0=no\n\n";
 	
+	//Get settings from input
 	std::cout << "Clear temporary folders=";
 	std::cin >> Cleaner::b_clear_temp;
 
 	std::cout << "Disable hibernation mode=";
 	std::cin >> Cleaner::b_remove_hibernation;
 
+	//Run cleaner
 	Cleaner::Cleanup();
 	std::cout << "Program finished.\n";
 
