@@ -9,6 +9,7 @@ namespace Util
 {
 	static bool b_logging_enabled = true;
 	static std::string s_computer_name = getenv("COMPUTERNAME");
+	static std::string s_user_name = getenv("USERNAME");
 	static std::string s_directory_temp = getenv("TEMP");
 	static auto i_computer_processor_cores = getenv("NUMBER_OF_PROCESSORS");
 
@@ -52,6 +53,7 @@ namespace Cleaner
 {
 	//List of directories to clear
 	static std::vector<std::string> vec_clear_dirs;
+	static std::vector<std::string> vec_delete_files;
 
 	//Cleaner settings
 	static bool b_clear_temp = false;
@@ -89,11 +91,31 @@ namespace Cleaner
 		vec_clear_dirs.push_back("C:\\Windows\\Temp");
 		vec_clear_dirs.push_back("C:\\Windows\\SoftwareDistribution\\Download");
 		vec_clear_dirs.push_back("C:\\Windows\\Minidump");
+		vec_clear_dirs.push_back("C:\\Windows\\Prefetch");
+		vec_clear_dirs.push_back("C:\\Users\\" + Util::s_user_name + "\\AppData\\Local\\Microsoft\\Windows\\History");
+		vec_clear_dirs.push_back("C:\\Users\\" + Util::s_user_name + "\\AppData\\Local\\Microsoft\\Windows\\WebCache");
+		vec_clear_dirs.push_back("C:\\Users\\" + Util::s_user_name + "\\AppData\\Roaming\\Microsoft\\Windows\\Recent\\AutomaticDestinations\\");
+
+		vec_delete_files.push_back("C:\\Windows\\Debug\\PASSWD.LOG");
 
 		//Iterate directory list and clear each
 		for (std::string s : vec_clear_dirs)
 		{
 			Util::directory_clear(s);
+		}
+		for (std::string x : vec_delete_files)
+		{
+			if (Util::path_exists(x))
+			{
+				Util::log("File " + x + " exists. Attempting to delete");
+				remove(x.c_str());
+				if (Util::path_exists(x))
+					Util::log("Do not have permissions to delete file. Run as administrator");
+			}
+			else
+			{
+				Util::log("Can not find " + x);
+			}				
 		}
 	}
 
@@ -123,7 +145,7 @@ int main()
 	//Run cleaner
 	Cleaner::Cleanup();
 	std::cout << "Program finished.\n";
-
+	
 	//Never exit program
 	while (1){}
 }
