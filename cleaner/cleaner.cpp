@@ -8,6 +8,14 @@
 #include <experimental/filesystem>
 #pragma warning(disable:4996)
 
+//For changing file properties
+enum file_types
+{
+	file_normal = 0x80,
+	file_readonly = 0x1,
+	file_hidden = 0x2
+};
+
 namespace Util
 {
 	//settings
@@ -32,6 +40,17 @@ namespace Util
 			return;
 
 		std::cout << ("Log: %s", message) << '\n';
+	}	
+
+	void file_change_attributes(std::string path, file_types type)
+	{
+		//Building path with \\.\ before the directory. This (sometimes) allows for deletion even if in-use
+		std::string s_temp = "\\\\.\\" + path;
+
+		//Converting string to LPCWSTR
+		std::wstring ws_temp = std::wstring(path.begin(), path.end());
+		LPCWSTR directory = ws_temp.c_str();
+		SetFileAttributes(directory, type);
 	}
 
 	//Delete system-protected files or in-use files
@@ -50,7 +69,18 @@ namespace Util
 		std::wstring ws_temp = std::wstring(path.begin(), path.end());
 		LPCWSTR directory = ws_temp.c_str();
 
-		DeleteFile(directory);
+		SetFileAttributes(directory, file_normal);
+
+		try
+		{
+			//I'm not sure. Some files just refuse to be deleted. Will fix later
+			DeleteFile(directory);
+			std::experimental::filesystem::remove(path);
+		}
+		catch (std::exception e)
+		{
+			return;
+		}
 	}
 
 	//Delete method
@@ -190,17 +220,7 @@ namespace Cleaner
 		}
 		for (std::string x : vec_delete_files)
 		{
-			if (Util::path_exists(x))
-			{
-				Util::log("File " + x + " exists. Attempting to delete");
-				remove(x.c_str());
-				if (Util::path_exists(x))
-					Util::log("Do not have permissions to delete file. Run as administrator");
-			}
-			else
-			{
-				Util::log("Can not find " + x);
-			}				
+			Util::file_delete(x);
 		}
 	}
 
@@ -216,7 +236,7 @@ namespace Cleaner
 }
 
 int main()
-{	
+{
 	//Display Message
 	std::cout << "==Buddy cleaner==\n\nIt is recommended to run this program as admin.\nDoing so allows for more files to be cleaned.\nThe following questions are to be answered as 1=yes, 0=no\n\n";
 	
