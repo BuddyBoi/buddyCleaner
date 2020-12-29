@@ -104,12 +104,12 @@ namespace Util
 
 	namespace Registry
 	{
-		std::string registry_read_current_user(std::string reg_path, std::string reg_key)
+		std::string registry_read(std::string reg_path, std::string reg_key, HKEY reg_section)
 		{
 			try
 			{
 				HKEY h_key = nullptr;
-				if (RegOpenKeyExA(HKEY_CURRENT_USER, reg_path.c_str(), 0, KEY_QUERY_VALUE, &h_key) != ERROR_SUCCESS)
+				if (RegOpenKeyExA(reg_section, reg_path.c_str(), 0, KEY_QUERY_VALUE, &h_key) != ERROR_SUCCESS)
 				{
 					RegCloseKey(h_key);
 

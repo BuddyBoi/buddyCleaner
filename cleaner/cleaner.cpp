@@ -27,7 +27,7 @@ namespace Cleaner
 		//steam
 		if (b_clear_steam_temp)
 		{
-			vec_clear_dirs.push_back(Util::Registry::registry_read_current_user("SOFTWARE\\Valve\\Steam", "SteamPath") + "/steamapps/temp/");
+			vec_clear_dirs.push_back(Util::Registry::registry_read("SOFTWARE\\Valve\\Steam", "SteamPath", HKEY_CURRENT_USER) + "/steamapps/temp/");
 		}
 
 		//Hibernation

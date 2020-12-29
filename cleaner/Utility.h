@@ -35,6 +35,6 @@ namespace Util
 
 	namespace Registry
 	{
-		std::string registry_read_current_user(std::string reg_path, std::string reg_key);
+		std::string registry_read(std::string reg_path, std::string reg_key, HKEY reg_section);
 	}
 }
