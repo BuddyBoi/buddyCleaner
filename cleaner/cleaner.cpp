@@ -15,7 +15,7 @@ namespace Util
 	static bool b_elevated_remove_enabled = true;
 
 	static std::string s_computer_name = getenv("COMPUTERNAME");
-	static std::string s_user_name = getenv("USERNAME");
+	static std::string s_user_dir = getenv("USERPROFILE");
 	static std::string s_directory_temp = getenv("TEMP");
 	static auto i_computer_processor_cores = getenv("NUMBER_OF_PROCESSORS");
 	
@@ -53,7 +53,7 @@ namespace Util
 		DeleteFile(directory);
 	}
 
-	//
+	//Delete method
 	void file_delete(std::string path)
 	{
 		if (path_exists(path))
@@ -86,6 +86,45 @@ namespace Util
 			file_delete(s_path_name);
 		}
 	}
+
+	namespace Registry
+	{
+		std::string registry_read_current_user(std::string reg_path, std::string reg_key)
+		{
+			try
+			{
+				HKEY h_key = nullptr;
+				if (RegOpenKeyExA(HKEY_CURRENT_USER, reg_path.c_str(), 0, KEY_QUERY_VALUE, &h_key) != ERROR_SUCCESS)
+				{
+					RegCloseKey(h_key);
+
+					log("Failed to find registry directory");
+					return "Error";
+				}
+
+				char path_reg[MAX_PATH]; path_reg[0] = '-'; //Idk dude
+				DWORD reg_path_size = sizeof(path_reg) - sizeof(char);
+
+				if (RegQueryValueExA(h_key, reg_key.c_str(), nullptr, nullptr, (LPBYTE)(path_reg + 1), &reg_path_size) != ERROR_SUCCESS)
+				{
+					RegCloseKey(h_key);
+					log("Failed to read registry key");
+					return "error";
+					
+				}
+				RegCloseKey(h_key);
+
+				auto return_reg = std::string(path_reg);
+				return_reg = return_reg.erase(0, 1); //remove idk dude
+				return return_reg;
+			}
+			catch (std::exception e)
+			{
+				log("Registry read failure");
+				return "Error";
+			}			
+		}
+	}
 }
 
 namespace Cleaner
@@ -97,6 +136,7 @@ namespace Cleaner
 	//Cleaner settings
 	static bool b_clear_temp = false;
 	static bool b_remove_hibernation = false;
+	static bool b_clear_steam_temp = true;
 
 	//Removing hibernation from your computer frees up a lot of space
 	void remove_hibernation()
@@ -131,9 +171,15 @@ namespace Cleaner
 		vec_clear_dirs.push_back("C:\\Windows\\SoftwareDistribution\\Download");
 		vec_clear_dirs.push_back("C:\\Windows\\Minidump");
 		vec_clear_dirs.push_back("C:\\Windows\\Prefetch");
-		vec_clear_dirs.push_back("C:\\Users\\" + Util::s_user_name + "\\AppData\\Local\\Microsoft\\Windows\\History");
-		vec_clear_dirs.push_back("C:\\Users\\" + Util::s_user_name + "\\AppData\\Local\\Microsoft\\Windows\\WebCache");
-		vec_clear_dirs.push_back("C:\\Users\\" + Util::s_user_name + "\\AppData\\Roaming\\Microsoft\\Windows\\Recent\\AutomaticDestinations\\");
+		vec_clear_dirs.push_back(Util::s_user_dir + "\\AppData\\Local\\Microsoft\\Windows\\History");
+		vec_clear_dirs.push_back(Util::s_user_dir + "\\AppData\\Local\\Microsoft\\Windows\\WebCache");
+		vec_clear_dirs.push_back(Util::s_user_dir + "\\AppData\\Roaming\\Microsoft\\Windows\\Recent\\AutomaticDestinations\\");
+
+		//steam
+		if (b_clear_steam_temp)
+		{
+			vec_clear_dirs.push_back(Util::Registry::registry_read_current_user("SOFTWARE\\Valve\\Steam", "SteamPath") + "/steamapps/temp/");
+		}
 
 		vec_delete_files.push_back("C:\\Windows\\Debug\\PASSWD.LOG");
 
@@ -175,7 +221,7 @@ int main()
 	std::cout << "==Buddy cleaner==\n\nIt is recommended to run this program as admin.\nDoing so allows for more files to be cleaned.\nThe following questions are to be answered as 1=yes, 0=no\n\n";
 	
 	//Get settings from input
-	std::cout << "Clear temporary folders=";
+	std::cout << "Clear temp directories=";
 	std::cin >> Cleaner::b_clear_temp;
 
 	std::cout << "Disable hibernation mode=";
@@ -184,10 +230,13 @@ int main()
 	std::cout << "Elevated removal(requires admin)=";
 	std::cin >> Util::b_elevated_remove_enabled;
 
-	//Run cleaner
+	std::cout << "Clear steam temp(requires clear temp directories on)=";
+	std::cin >> Cleaner::b_clear_temp;
+
+	//Run cleaner	
 	Cleaner::Cleanup();
 	std::cout << "Program finished.\n";
-	
+
 	//Never exit program
 	while (1){}
 }
