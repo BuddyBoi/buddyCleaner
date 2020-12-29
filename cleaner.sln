@@ -7,16 +7,22 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cleaner", "cleaner\cleaner.
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|ARM = Release|ARM
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FFD6FBE1-6CBC-4F6A-8D55-9E8E286DBDF2}.Debug|ARM.ActiveCfg = Debug|Win32
+		{FFD6FBE1-6CBC-4F6A-8D55-9E8E286DBDF2}.Debug|ARM.Build.0 = Debug|Win32
 		{FFD6FBE1-6CBC-4F6A-8D55-9E8E286DBDF2}.Debug|x64.ActiveCfg = Debug|x64
 		{FFD6FBE1-6CBC-4F6A-8D55-9E8E286DBDF2}.Debug|x64.Build.0 = Debug|x64
 		{FFD6FBE1-6CBC-4F6A-8D55-9E8E286DBDF2}.Debug|x86.ActiveCfg = Debug|Win32
 		{FFD6FBE1-6CBC-4F6A-8D55-9E8E286DBDF2}.Debug|x86.Build.0 = Debug|Win32
+		{FFD6FBE1-6CBC-4F6A-8D55-9E8E286DBDF2}.Release|ARM.ActiveCfg = Release|ARM
+		{FFD6FBE1-6CBC-4F6A-8D55-9E8E286DBDF2}.Release|ARM.Build.0 = Release|ARM
 		{FFD6FBE1-6CBC-4F6A-8D55-9E8E286DBDF2}.Release|x64.ActiveCfg = Release|x64
 		{FFD6FBE1-6CBC-4F6A-8D55-9E8E286DBDF2}.Release|x64.Build.0 = Release|x64
 		{FFD6FBE1-6CBC-4F6A-8D55-9E8E286DBDF2}.Release|x86.ActiveCfg = Release|Win32

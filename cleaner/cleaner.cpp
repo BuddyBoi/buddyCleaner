@@ -1,5 +1,8 @@
 #include <iostream>
 #include <string>
+#include <Windows.h>
+#include <fileapi.h>
+
 
 #define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING 
 #include <experimental/filesystem>
@@ -7,12 +10,15 @@
 
 namespace Util
 {
+	//settings
 	static bool b_logging_enabled = true;
+	static bool b_elevated_remove_enabled = true;
+
 	static std::string s_computer_name = getenv("COMPUTERNAME");
 	static std::string s_user_name = getenv("USERNAME");
 	static std::string s_directory_temp = getenv("TEMP");
 	static auto i_computer_processor_cores = getenv("NUMBER_OF_PROCESSORS");
-
+	
 	//checks if the path (file or directory) exists
 	bool path_exists(std::string path)
 	{
@@ -28,6 +34,48 @@ namespace Util
 		std::cout << ("Log: %s", message) << '\n';
 	}
 
+	//Delete system-protected files or in-use files
+	void file_elevated_delete(std::string path)
+	{
+		if (!b_elevated_remove_enabled)
+		{
+			log("Elevated remove is disabled.");
+			return;
+		}
+
+		//Building path with \\.\ before the directory. This (sometimes) allows for deletion even if in-use
+		std::string s_temp = "\\\\.\\" + path;
+
+		//Converting string to LPCWSTR
+		std::wstring ws_temp = std::wstring(path.begin(), path.end());
+		LPCWSTR directory = ws_temp.c_str();
+
+		DeleteFile(directory);
+	}
+
+	//
+	void file_delete(std::string path)
+	{
+		if (path_exists(path))
+		{
+			log("Attempting to delete " + path);
+			remove(path.c_str());
+			if (path_exists(path))
+			{
+				log("Failed to delete " + path);
+				log("Attempting elevated remove");
+				file_elevated_delete(path);
+
+				if (path_exists(path))
+				{
+					log("Failed to delete with elevation " + path);
+					return;
+				}
+			}
+			log("Removed " + path);
+		}			
+	}
+
 	//Iterate a directory and clear it's contents
 	void directory_clear(std::string directory)
 	{
@@ -35,16 +83,7 @@ namespace Util
 		{
 			auto path = entry.path();
 			std::string s_path_name = entry.path().string();
-			try
-			{
-				remove(path);
-				log("Removed: " + s_path_name);
-			}
-			catch(std::exception e)
-			{
-				log("Failed to remove " + s_path_name);
-				continue;
-			}			
+			file_delete(s_path_name);
 		}
 	}
 }
@@ -141,6 +180,9 @@ int main()
 
 	std::cout << "Disable hibernation mode=";
 	std::cin >> Cleaner::b_remove_hibernation;
+
+	std::cout << "Elevated removal(requires admin)=";
+	std::cin >> Util::b_elevated_remove_enabled;
 
 	//Run cleaner
 	Cleaner::Cleanup();
