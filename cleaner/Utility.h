@@ -11,9 +11,13 @@ namespace Util
 	};
 
 	//settings
-	static bool b_logging_enabled = true;
-	static bool b_elevated_remove_enabled = true;
+	extern bool b_logging_enabled;
+	extern bool b_elevated_remove_enabled;
 
+	//Timer
+	extern int i_time_clean_start;
+
+	//Computer and user variables
 	static std::string s_computer_name = getenv("COMPUTERNAME");
 	static std::string s_user_dir = getenv("USERPROFILE");
 	static std::string s_directory_temp = getenv("TEMP");
@@ -26,6 +30,8 @@ namespace Util
 	void file_elevated_delete(std::string path);
 	void file_delete(std::string path);
 	void directory_clear(std::string directory);
+
+	int time_get();
 
 	namespace Registry
 	{

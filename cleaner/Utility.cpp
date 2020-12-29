@@ -2,6 +2,16 @@
 
 namespace Util
 {
+	//settings
+	bool b_logging_enabled;
+	bool b_elevated_remove_enabled;
+	int i_time_clean_start;
+
+	int time_get()
+	{
+		return static_cast<unsigned int>(time(0));
+	}
+
 	//checks if the path (file or directory) exists
 	bool path_exists(std::string path)
 	{

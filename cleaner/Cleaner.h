@@ -13,8 +13,6 @@ namespace Cleaner
 	extern bool b_remove_hibernation;
 	extern bool b_clear_steam_temp;
 	
-	void remove_hibernation();
-	void remove_temp_files();
-
+	void cleanup_files();
 	void Cleanup();
 }
