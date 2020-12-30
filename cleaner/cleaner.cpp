@@ -6,6 +6,7 @@ namespace Cleaner
 	bool b_clear_temp;
 	bool b_remove_hibernation;
 	bool b_clear_steam_temp;
+	bool b_clean_chrome;
 
 	//Remove all temp files in temp directories
 	void cleanup_files()
@@ -47,9 +48,33 @@ namespace Cleaner
 		}
 	}
 
+	//removes chromes cookies and cache
+	void clean_chrome()
+	{
+		vec_clear_dirs.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cache"); //chrome
+		vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies"); //chrome
+
+		for (std::string s : vec_clear_dirs)
+		{
+			Util::directory_clear(s);
+		}
+
+		for (std::string x : vec_delete_files)
+		{
+			Util::file_delete(x);
+		}
+	}
+
+	//adding this later my brain is very small
+	void clean_firefox()
+	{
+		vec_clear_dirs.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + +"\\Cache2"); //firefox
+	}
+
 	//If setting is enabled do operation
 	void Cleanup()
 	{
 		cleanup_files();
+		clean_chrome();
 	}
 }

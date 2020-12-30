@@ -15,6 +15,9 @@ int main()
 	std::cout << "Clear temp directories=";
 	std::cin >> Cleaner::b_clear_temp;
 
+	std::cout << "Clear Google Chrome cookies and cache=";
+	std::cin >> Cleaner::b_clean_chrome;
+
 	std::cout << "Disable hibernation mode=";
 	std::cin >> Cleaner::b_remove_hibernation;
 

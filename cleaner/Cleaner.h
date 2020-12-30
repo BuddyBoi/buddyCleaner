@@ -12,7 +12,8 @@ namespace Cleaner
 	extern bool b_clear_temp;
 	extern bool b_remove_hibernation;
 	extern bool b_clear_steam_temp;
-	
+	extern bool b_clean_chrome;
+
 	void cleanup_files();
 	void Cleanup();
 }
