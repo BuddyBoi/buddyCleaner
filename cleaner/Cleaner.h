@@ -19,15 +19,5 @@ namespace Cleaner
 	extern bool b_clean_opera;
 
 	void clean_files();
-<<<<<<< HEAD
-=======
-	void empty_recycling_bin();
-<<<<<<< HEAD
-	void clean_chrome();
-	void clean_firefox();
-	void clean_opera();
->>>>>>> 5d5a6712289780599514c8b457d1417d9931a535
-=======
->>>>>>> d4e0286bdee7cef361ec7e04c1b614c047f44550
 	void Cleanup();
 }
