@@ -4,10 +4,10 @@
 namespace Util
 {
 	enum file_types
-	{
-		file_normal = 0x80,
+	{	
 		file_readonly = 0x1,
-		file_hidden = 0x2
+		file_hidden = 0x2,
+		file_normal = 0x80,				
 	};
 
 	//Computer and user variables
