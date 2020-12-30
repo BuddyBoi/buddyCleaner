@@ -56,7 +56,10 @@ namespace Cleaner
 	{
 		if (b_empty_recycling_bin)
 		{
-			if (SHEmptyRecycleBin(NULL, NULL, SHERB_NOCONFIRMATION != 0)) //ignore
+			std::string path = "C:\\Windows";
+			std::wstring ws_temp = std::wstring(path.begin(), path.end());
+			LPCWSTR drive = ws_temp.c_str();
+			if (SHEmptyRecycleBin(NULL, drive, SHERB_NOCONFIRMATION != 0)) //ignore
 			{
 				Util::ulog("Failed to empty recycling bin");
 			}
