@@ -13,14 +13,11 @@ namespace Cleaner
 	extern bool b_remove_hibernation;
 	extern bool b_clear_steam_temp;
 	extern bool b_empty_recycling_bin;
+	extern bool b_clean_edge;
 	extern bool b_clean_chrome;
 	extern bool b_clean_firefox;
 	extern bool b_clean_opera;
 
-	void clean_temp_files();
-	void empty_recycling_bin();
-	void clean_chrome();
-	void clean_firefox();
-	void clean_opera();
+	void clean_files();
 	void Cleanup();
 }

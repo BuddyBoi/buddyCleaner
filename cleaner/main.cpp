@@ -18,6 +18,9 @@ int main()
 	std::cout << "Empty Recycling Bin=";
 	std::cin >> Cleaner::b_empty_recycling_bin;
 
+	std::cout << "Clear Microsoft Edge cookies and cache=";
+	std::cin >> Cleaner::b_clean_edge;
+
 	std::cout << "Clear Google Chrome cookies and cache=";
 	std::cin >> Cleaner::b_clean_chrome;
 
