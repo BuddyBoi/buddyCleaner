@@ -14,6 +14,7 @@ namespace Cleaner
 	//Remove all temp files in temp directories
 	void clean_files()
 	{
+		//Windows temp
 		if (b_clear_temp)
 		{
 			vec_clear_dirs.push_back(Util::s_directory_temp);
@@ -32,6 +33,31 @@ namespace Cleaner
 		if (b_clear_steam_temp)
 		{
 			vec_clear_dirs.push_back(Util::Registry::registry_read("SOFTWARE\\Valve\\Steam", "SteamPath", HKEY_CURRENT_USER) + "/steamapps/temp/");
+		}
+
+		//Chrome
+		if (b_clean_chrome)
+		{
+			vec_clear_dirs.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cache");
+			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies");
+			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies-journal");
+		}
+
+		//firefox
+		if (b_clean_firefox)
+		{
+			vec_clear_dirs.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + +"\\Cache2");
+		}
+
+		//opera
+		if (b_clean_opera)
+		{
+			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Media History");
+			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Media History-journal");
+			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\History");
+			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\History-journal");
+			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Cookies");
+			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Cookies-journal");
 		}
 
 		//Hibernation
@@ -67,61 +93,10 @@ namespace Cleaner
 		}
 	}
 
-	//chromes cookies and cache
-	void clean_chrome()
-	{
-		if (b_clean_chrome)
-		{
-			vec_clear_dirs.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cache");
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies");
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies-journal");
-
-			for (std::string s : vec_clear_dirs)
-			{
-				Util::directory_clear(s);
-			}
-
-			for (std::string x : vec_delete_files)
-			{
-				Util::file_delete(x);
-			}
-		}
-	}
-
-	//adding this later my brain is very small
-	void clean_firefox()
-	{
-		if (b_clean_firefox)
-		{
-			vec_clear_dirs.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + +"\\Cache2");
-		}
-	}
-
-	//opera cookies and cache
-	void clean_opera()
-	{
-		if (b_clean_opera)
-		{
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Media History");
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Media History-journal");
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\History");
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\History-journal");
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Cookies");
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Cookies-journal");
-
-			for (std::string x : vec_delete_files)
-			{
-				Util::file_delete(x);
-			}
-		}
-	}
-
 	//If setting is enabled do operation
 	void Cleanup()
 	{
 		clean_files();
-		empty_recycling_bin();
-		clean_chrome();
-		clean_opera();		
+		empty_recycling_bin();		
 	}
 }
