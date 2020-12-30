@@ -6,10 +6,13 @@ namespace Cleaner
 	bool b_clear_temp;
 	bool b_remove_hibernation;
 	bool b_clear_steam_temp;
+	bool b_empty_recycling_bin;
 	bool b_clean_chrome;
+	bool b_clean_firefox;
+	bool b_clean_opera;
 
 	//Remove all temp files in temp directories
-	void cleanup_files()
+	void clean_temp_files()
 	{
 		if (b_clear_temp)
 		{
@@ -48,33 +51,78 @@ namespace Cleaner
 		}
 	}
 
-	//removes chromes cookies and cache
+	//empties recycling bin 
+	void empty_recycling_bin()
+	{
+		if (b_empty_recycling_bin)
+		{
+			if (SHEmptyRecycleBin(NULL, NULL, SHERB_NOCONFIRMATION != 0)) //ignore
+			{
+				Util::ulog("Failed to empty recycling bin");
+			}
+			else
+			{
+				Util::ulog("Recycling bin successfully emptied");
+			}
+		}
+	}
+
+	//chromes cookies and cache
 	void clean_chrome()
 	{
-		vec_clear_dirs.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cache"); //chrome
-		vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies"); //chrome
-
-		for (std::string s : vec_clear_dirs)
+		if (b_clean_chrome)
 		{
-			Util::directory_clear(s);
-		}
+			vec_clear_dirs.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cache");
+			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies");
+			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies-journal");
 
-		for (std::string x : vec_delete_files)
-		{
-			Util::file_delete(x);
+			for (std::string s : vec_clear_dirs)
+			{
+				Util::directory_clear(s);
+			}
+
+			for (std::string x : vec_delete_files)
+			{
+				Util::file_delete(x);
+			}
 		}
 	}
 
 	//adding this later my brain is very small
 	void clean_firefox()
 	{
-		vec_clear_dirs.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + +"\\Cache2"); //firefox
+		if (b_clean_firefox)
+		{
+			vec_clear_dirs.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + +"\\Cache2");
+		}
+	}
+
+	//opera cookies and cache
+	void clean_opera()
+	{
+		if (b_clean_opera)
+		{
+			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Media History");
+			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Media History-journal");
+			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\History");
+			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\History-journal");
+			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Cookies");
+			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Cookies-journal");
+
+			for (std::string x : vec_delete_files)
+			{
+				Util::file_delete(x);
+			}
+		}
 	}
 
 	//If setting is enabled do operation
 	void Cleanup()
 	{
-		cleanup_files();
+		clean_temp_files();
+		empty_recycling_bin();
 		clean_chrome();
+		clean_opera();
+		
 	}
 }
