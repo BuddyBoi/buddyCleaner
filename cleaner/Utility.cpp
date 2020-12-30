@@ -51,16 +51,12 @@ namespace Util
 		//Building path with \\.\ before the directory. This (sometimes) allows for deletion even if in-use
 		std::string s_temp = "\\\\.\\" + path;
 
-		//Converting string to LPCWSTR
-		std::wstring ws_temp = std::wstring(path.begin(), path.end());
-		LPCWSTR directory = ws_temp.c_str();
-
-		SetFileAttributes(directory, file_normal);
+		SetFileAttributes(Util::str_to_wstring(s_temp).c_str(), file_normal);
 
 		try
 		{
 			//I'm not sure. Some files just refuse to be deleted. Will fix later
-			DeleteFile(directory);
+			DeleteFile(Util::str_to_wstring(s_temp).c_str());
 			std::experimental::filesystem::remove(path);
 		}
 		catch (std::exception e)
