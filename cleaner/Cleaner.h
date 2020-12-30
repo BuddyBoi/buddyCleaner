@@ -19,8 +19,5 @@ namespace Cleaner
 
 	void clean_files();
 	void empty_recycling_bin();
-	void clean_chrome();
-	void clean_firefox();
-	void clean_opera();
 	void Cleanup();
 }
