@@ -7,9 +7,21 @@ namespace Util
 	bool b_elevated_remove_enabled;
 	int i_time_clean_start;
 
+	//Convert string to LPCWSTR
+	std::wstring str_to_wstring(std::string str)
+	{
+		std::wstring ws_temp = std::wstring(str.begin(), str.end());
+		return ws_temp;
+	}
+
 	int time_get()
 	{
 		return static_cast<unsigned int>(time(0));
+	}
+
+	void file_change_attributes(std::string path, file_types type)
+	{
+		SetFileAttributes(str_to_wstring(path).c_str(), type);
 	}
 
 	//checks if the path (file or directory) exists
@@ -25,18 +37,7 @@ namespace Util
 			return;
 
 		std::cout << ("Log: %s", message) << '\n';
-	}
-
-	void file_change_attributes(std::string path, file_types type)
-	{
-		//Building path with \\.\ before the directory. This (sometimes) allows for deletion even if in-use
-		std::string s_temp = "\\\\.\\" + path;
-
-		//Converting string to LPCWSTR
-		std::wstring ws_temp = std::wstring(path.begin(), path.end());
-		LPCWSTR directory = ws_temp.c_str();
-		SetFileAttributes(directory, type);
-	}
+	}	
 
 	//Delete system-protected files or in-use files
 	void file_elevated_delete(std::string path)
@@ -100,7 +101,7 @@ namespace Util
 			std::string s_path_name = entry.path().string();
 			file_delete(s_path_name);
 		}
-	}
+	}	
 
 	namespace Registry
 	{

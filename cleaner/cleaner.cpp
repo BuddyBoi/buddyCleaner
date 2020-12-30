@@ -103,5 +103,11 @@ namespace Cleaner
 	void Cleanup()
 	{
 		clean_files();
+<<<<<<< HEAD
+=======
+		empty_recycling_bin();
+		clean_chrome();
+		clean_opera();		
+>>>>>>> 5d5a6712289780599514c8b457d1417d9931a535
 	}
 }

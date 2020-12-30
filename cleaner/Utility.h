@@ -21,11 +21,14 @@ namespace Util
 	static std::string s_computer_name = getenv("COMPUTERNAME");
 	static std::string s_user_dir = getenv("USERPROFILE");
 	static std::string s_directory_temp = getenv("TEMP");
-	static auto i_computer_processor_cores = getenv("NUMBER_OF_PROCESSORS");
+	static std::string s_windows_dir = getenv("SYSTEMROOT");
+	
+	//Convert string to LPCWSTR
+	std::wstring str_to_wstring(std::string str);
 
-	bool path_exists(std::string path);
-	void ulog(std::string message);
 	void file_change_attributes(std::string path, file_types type);
+	bool path_exists(std::string path);
+	void ulog(std::string message);	
 
 	void file_elevated_delete(std::string path);
 	void file_delete(std::string path);

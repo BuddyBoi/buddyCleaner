@@ -45,7 +45,7 @@ int main()
 
 	//Display how long program took
 	int program_duration = Util::time_get() - Util::i_time_clean_start;
-	std::cout << "Cleaner took " << program_duration << " seconds.";
+	std::cout << "Cleaner took " << program_duration << " seconds.";	
 
 	//User manually close program
 	while (1){}
