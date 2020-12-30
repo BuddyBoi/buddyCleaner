@@ -102,6 +102,14 @@ namespace Util
 		}
 	}
 
+	//Convert string to LPCWSTR
+	LPCWSTR str_to_lpcwstr(std::string str)
+	{
+		std::wstring ws_temp = std::wstring(str.begin(), str.end());
+		LPCWSTR result = ws_temp.c_str();
+		return result;
+	}
+
 	namespace Registry
 	{
 		std::string registry_read(std::string reg_path, std::string reg_key, HKEY reg_section)

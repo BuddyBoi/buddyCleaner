@@ -12,7 +12,7 @@ namespace Cleaner
 	bool b_clean_opera;
 
 	//Remove all temp files in temp directories
-	void clean_temp_files()
+	void clean_files()
 	{
 		if (b_clear_temp)
 		{
@@ -122,10 +122,9 @@ namespace Cleaner
 	//If setting is enabled do operation
 	void Cleanup()
 	{
-		clean_temp_files();
+		clean_files();
 		empty_recycling_bin();
 		clean_chrome();
-		clean_opera();
-		
+		clean_opera();		
 	}
 }
