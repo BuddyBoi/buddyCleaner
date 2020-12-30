@@ -15,6 +15,7 @@ namespace Cleaner
 	//Remove all temp files in temp directories
 	void clean_files()
 	{
+		//Windows temp
 		if (b_clear_temp)
 		{
 			vec_clear_dirs.push_back(Util::s_directory_temp);
@@ -35,6 +36,31 @@ namespace Cleaner
 			vec_clear_dirs.push_back(Util::Registry::registry_read("SOFTWARE\\Valve\\Steam", "SteamPath", HKEY_CURRENT_USER) + "/steamapps/temp/");
 		}
 
+		//Chrome
+		if (b_clean_chrome)
+		{
+			vec_clear_dirs.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cache");
+			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies");
+			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies-journal");
+		}
+
+		//firefox
+		if (b_clean_firefox)
+		{
+			vec_clear_dirs.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + +"\\Cache2");
+		}
+
+		//opera
+		if (b_clean_opera)
+		{
+			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Media History");
+			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Media History-journal");
+			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\History");
+			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\History-journal");
+			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Cookies");
+			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Cookies-journal");
+		}
+
 		//Hibernation
 		if (b_remove_hibernation)
 		{
@@ -43,10 +69,14 @@ namespace Cleaner
 
 		if (b_empty_recycling_bin)
 		{
+<<<<<<< HEAD
 			std::string path = "C:\\Windows";
 			std::wstring ws_temp = std::wstring(path.begin(), path.end());
 			LPCWSTR drive = ws_temp.c_str();
 			if (SHEmptyRecycleBin(NULL, drive, SHERB_NOCONFIRMATION != 0)) //ignore green :)
+=======
+			if (SHEmptyRecycleBin(NULL, Util::str_to_wstring(Util::s_windows_dir).c_str(), SHERB_NOCONFIRMATION != 0)) //ignore
+>>>>>>> 0392ff3d2ba1b3deffa35109d0e9cd48e493c49e
 			{
 				Util::ulog("Failed to empty recycling bin");
 			}
@@ -56,6 +86,7 @@ namespace Cleaner
 			}
 		}
 
+<<<<<<< HEAD
 		//edge cookies and cache
 		if (b_clean_edge)
 		{
@@ -99,15 +130,21 @@ namespace Cleaner
 		}
 	}
 
+=======
+>>>>>>> 0392ff3d2ba1b3deffa35109d0e9cd48e493c49e
 	//If setting is enabled do operation
 	void Cleanup()
 	{
 		clean_files();
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 		empty_recycling_bin();
 		clean_chrome();
 		clean_opera();		
 >>>>>>> 5d5a6712289780599514c8b457d1417d9931a535
+=======
+		empty_recycling_bin();		
+>>>>>>> 0392ff3d2ba1b3deffa35109d0e9cd48e493c49e
 	}
 }
