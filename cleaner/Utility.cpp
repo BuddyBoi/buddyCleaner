@@ -5,19 +5,29 @@ namespace Util
 	//settings
 	bool b_logging_enabled;
 	bool b_elevated_remove_enabled;
+
+	//Logger
+	void ulog(std::string message)
+	{
+		if (!b_logging_enabled)
+			return;
+
+		std::cout << ("Log: %s", message) << '\n';
+	}
+
+	//Timer
 	int i_time_clean_start;
+	int time_get()
+	{
+		return static_cast<unsigned int>(time(0));
+	}
 
 	//Convert string to LPCWSTR
 	std::wstring str_to_wstring(std::string str)
 	{
 		std::wstring ws_temp = std::wstring(str.begin(), str.end());
 		return ws_temp;
-	}
-
-	int time_get()
-	{
-		return static_cast<unsigned int>(time(0));
-	}
+	}	
 
 	void file_change_attributes(std::string path, file_types type)
 	{
@@ -28,15 +38,6 @@ namespace Util
 	bool path_exists(std::string path)
 	{
 		return std::experimental::filesystem::exists(path);
-	}
-
-	//Weak logging system
-	void ulog(std::string message)
-	{
-		if (!b_logging_enabled)
-			return;
-
-		std::cout << ("Log: %s", message) << '\n';
 	}	
 
 	//Delete system-protected files or in-use files

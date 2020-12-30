@@ -10,31 +10,34 @@ namespace Util
 		file_hidden = 0x2
 	};
 
-	//settings
-	extern bool b_logging_enabled;
-	extern bool b_elevated_remove_enabled;
-
-	//Timer
-	extern int i_time_clean_start;
-
 	//Computer and user variables
 	static std::string s_computer_name = getenv("COMPUTERNAME");
 	static std::string s_user_dir = getenv("USERPROFILE");
 	static std::string s_directory_temp = getenv("TEMP");
 	static std::string s_windows_dir = getenv("SYSTEMROOT");
-	
-	//Convert string to LPCWSTR
-	std::wstring str_to_wstring(std::string str);
 
+	//settings
+	extern bool b_logging_enabled;
+	extern bool b_elevated_remove_enabled;
+
+	//Logger
+	void ulog(std::string message);
+
+	//Timer
+	extern int i_time_clean_start;
+	int time_get();
+
+	//Conversion
+	std::wstring str_to_wstring(std::string str);
+	
+	//File
 	void file_change_attributes(std::string path, file_types type);
 	bool path_exists(std::string path);
-	void ulog(std::string message);	
-
 	void file_elevated_delete(std::string path);
 	void file_delete(std::string path);
 	void directory_clear(std::string directory);
 
-	int time_get();
+	
 
 	namespace Registry
 	{
