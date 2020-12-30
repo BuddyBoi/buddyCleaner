@@ -17,7 +17,7 @@ namespace Cleaner
 	extern bool b_clean_firefox;
 	extern bool b_clean_opera;
 
-	void clean_temp_files();
+	void clean_files();
 	void empty_recycling_bin();
 	void clean_chrome();
 	void clean_firefox();
