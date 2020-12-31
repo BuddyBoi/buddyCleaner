@@ -3,10 +3,35 @@
 #include "Cleaner.h"
 #include "Utility.h"
 
+//Not used ATM
+void display_computer_info()
+{
+	std::cout << "Computer Info:" << std::endl;
+
+	//Motherboard info
+	printf("Motherboard: %s. Manufactured by %s.\n",
+		   Util::Registry::registry_read("SYSTEM\\HardwareConfig\\Current", "BaseBoardProduct", HKEY_LOCAL_MACHINE).c_str(),
+		   Util::Registry::registry_read("SYSTEM\\HardwareConfig\\Current", "BaseBoardManufacturer", HKEY_LOCAL_MACHINE).c_str());
+
+	//Processor info
+	printf("Processor: %s. Manufactured by %s.\n", 
+		   Util::Registry::registry_read("HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", "ProcessorNameString", HKEY_LOCAL_MACHINE).c_str(),
+		   Util::Registry::registry_read("HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", "VendorIdentifier", HKEY_LOCAL_MACHINE).c_str());
+
+	//Boot info
+	std::string s_boot_temp = Util::Registry::registry_read("SYSTEM\\CurrentControlSet\\Control\\SecureBoot\\State", "UEFISecureBootEnabled", HKEY_LOCAL_MACHINE).c_str();
+	bool secure_boot_enabled = !s_boot_temp.empty();
+	std::cout << std::boolalpha << "Secure boot enabled: " << secure_boot_enabled << std::endl;
+
+	std::cout << std::endl << std::endl;
+}
+
 int main()
 {
+	display_computer_info();
+
 	//Display Message
-	std::cout << "==Buddy cleaner==\n\nIt is recommended to run this program as admin.\nDoing so allows for more files to be cleaned.\nThe following questions are to be answered as 1=yes, 0=no\n\n";
+	std::cout << "==Buddy cleaner==\nIt is recommended to run this program as admin.\nDoing so allows for more files to be cleaned.\nThe following questions are to be answered as 1=yes, 0=no\n\n";
 
 	//Get settings from input
 	std::cout << "Logging=";

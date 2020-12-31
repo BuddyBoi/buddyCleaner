@@ -67,6 +67,7 @@ namespace Cleaner
 			vec_delete_files.push_back("C:\\hiberfil.sys");
 		}	
 
+		//Clear the recycling bin
 		if (b_empty_recycling_bin)
 		{
 			if (SHEmptyRecycleBin(NULL, Util::str_to_wstring(Util::s_windows_dir).c_str(), SHERB_NOCONFIRMATION != 0)) //ignore
@@ -122,7 +123,7 @@ namespace Cleaner
 		}
 	}
 
-	//If setting is enabled do operation
+	//Start method for cleaner
 	void Cleanup()
 	{
 		clean_files();
