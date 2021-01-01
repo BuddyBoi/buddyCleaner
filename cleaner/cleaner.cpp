@@ -75,7 +75,7 @@ namespace Cleaner
 		//firefox
 		if (b_clean_firefox)
 		{
-			vec_clear_dirs.push_back(Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + +"\\Cache2");
+			//vec_clear_dirs.push_back(Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + +"\\Cache2");
 
 			if (b_clean_firefox_history)
 			{
@@ -114,11 +114,6 @@ namespace Cleaner
 
 			}
 		}
-
-		/*if (b_clean_firefox) adding this later my brain is small
-		{
-			vec_clear_dirs.push_back(Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + +"\\Cache2");
-		}*/
 
 		//Iterate directory list and clear each
 		for (std::string s : vec_clear_dirs)
