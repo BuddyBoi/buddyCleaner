@@ -75,7 +75,7 @@ namespace Cleaner
 		//firefox
 		if (b_clean_firefox)
 		{
-			vec_clear_dirs.push_back(Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + +"\\Cache2");
+			//vec_clear_dirs.push_back(Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + +"\\Cache2");
 
 			WIN32_FIND_DATAA findFileData;
 			std::string firefoxPath = "C:\\Users\\pless\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\*";
