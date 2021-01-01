@@ -78,7 +78,7 @@ namespace Cleaner
 			//vec_clear_dirs.push_back(Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + +"\\Cache2");
 
 			WIN32_FIND_DATAA findFileData;
-			std::string firefoxPath = "C:\\Users\\pless\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\*";
+			std::string firefoxPath = Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\*";
 			std::string profilePath;
 			HANDLE find = FindFirstFileA(firefoxPath.c_str(), &findFileData);
 
@@ -92,7 +92,7 @@ namespace Cleaner
 				Util::ulog("Failed to find Mozilla Firefox Profile");
 			}
 
-			vec_delete_files.push_back("C:\\Users\\pless\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + profilePath + "\\test123.txt");
+			vec_delete_files.push_back(Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + profilePath + "\\test123.txt");
 		}
 
 		//opera
