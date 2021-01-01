@@ -88,6 +88,10 @@ namespace Cleaner
 		{
 			vec_delete_files.push_back(Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Cookies");
 			vec_delete_files.push_back(Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Cookies-journal");
+			vec_delete_files.push_back(Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Extension Cookies");
+			vec_delete_files.push_back(Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Extension Cookies-journal");
+			vec_delete_files.push_back(Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Favicons");
+			vec_delete_files.push_back(Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Favicons-journal");
 
 			if (b_clean_opera_history)
 			{

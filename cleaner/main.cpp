@@ -37,6 +37,12 @@ int main()
 	std::cout << "Logging=";
 	std::cin >> Util::b_logging_enabled;
 
+	std::cout << "Disable hibernation mode=";
+	std::cin >> Cleaner::b_remove_hibernation;
+
+	std::cout << "Clear steam temp=";
+	std::cin >> Cleaner::b_clear_steam_temp;
+
 	std::cout << "Clear temp directories=";
 	std::cin >> Cleaner::b_clear_temp;
 
@@ -65,13 +71,7 @@ int main()
 	std::cin >> Cleaner::b_clean_opera;
 
 	std::cout << "Clear Opera history=";
-	std::cin >> Cleaner::b_clean_opera_history;
-
-	std::cout << "Disable hibernation mode=";
-	std::cin >> Cleaner::b_remove_hibernation;
-
-	std::cout << "Clear steam temp(requires clear temp directories on)=";
-	std::cin >> Cleaner::b_clear_steam_temp;
+	std::cin >> Cleaner::b_clean_opera_history;	
 
 	//Start cleaner timer
 	Util::i_time_clean_start = Util::time_get();
