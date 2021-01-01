@@ -8,9 +8,13 @@ namespace Cleaner
 	bool b_clear_steam_temp;
 	bool b_empty_recycling_bin;
 	bool b_clean_edge;
+	bool b_clean_edge_history;
 	bool b_clean_chrome;
+	bool b_clean_chrome_history;
 	bool b_clean_firefox;
+	bool b_clean_firefox_history;
 	bool b_clean_opera;
+	bool b_clean_opera_history;
 
 	//Remove all temp files in temp directories
 	void clean_files()
@@ -34,32 +38,7 @@ namespace Cleaner
 		if (b_clear_steam_temp)
 		{
 			vec_clear_dirs.push_back(Util::Registry::registry_read("SOFTWARE\\Valve\\Steam", "SteamPath", HKEY_CURRENT_USER) + "/steamapps/temp/");
-		}
-
-		//Chrome
-		if (b_clean_chrome)
-		{
-			vec_clear_dirs.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cache");
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies");
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies-journal");
-		}
-
-		//firefox
-		if (b_clean_firefox)
-		{
-			vec_clear_dirs.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + +"\\Cache2");
-		}
-
-		//opera
-		if (b_clean_opera)
-		{
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Media History");
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Media History-journal");
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\History");
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\History-journal");
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Cookies");
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Cookies-journal");
-		}
+		}		
 
 		//Hibernation
 		if (b_remove_hibernation)
@@ -80,36 +59,61 @@ namespace Cleaner
 			}
 		}
 
-		//edge cookies and cache
-		if (b_clean_edge)
-		{
-			vec_clear_dirs.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\Cache");
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\Cookies");
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\Cookies-journal");
-		}
-
-		//chromes cookies and cache
+		//Chrome
 		if (b_clean_chrome)
 		{
-			vec_clear_dirs.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cache");
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies");
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies-journal");
+			vec_clear_dirs.push_back(Util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cache");
+			vec_delete_files.push_back(Util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies");
+			vec_delete_files.push_back(Util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies-journal");
+
+			if (b_clean_chrome_history)
+			{
+
+			}
 		}
 
-		//opera cookies and cache
+		//firefox
+		if (b_clean_firefox)
+		{
+			vec_clear_dirs.push_back(Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + +"\\Cache2");
+
+			if (b_clean_firefox_history)
+			{
+
+			}
+		}
+
+		//opera
 		if (b_clean_opera)
 		{
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Media History");
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Media History-journal");
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\History");
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\History-journal");
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Cookies");
-			vec_delete_files.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Cookies-journal");
+			vec_delete_files.push_back(Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Cookies");
+			vec_delete_files.push_back(Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Cookies-journal");
+
+			if (b_clean_opera_history)
+			{
+				vec_delete_files.push_back(Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Media History");
+				vec_delete_files.push_back(Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Media History-journal");
+				vec_delete_files.push_back(Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\History");
+				vec_delete_files.push_back(Util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\History-journal");
+			}
+		}
+
+		//edge
+		if (b_clean_edge)
+		{
+			vec_clear_dirs.push_back(Util::s_user_dir + "\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\Cache");
+			vec_delete_files.push_back(Util::s_user_dir + "\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\Cookies");
+			vec_delete_files.push_back(Util::s_user_dir + "\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\Cookies-journal");
+
+			if (b_clean_edge_history)
+			{
+
+			}
 		}
 
 		/*if (b_clean_firefox) adding this later my brain is small
 		{
-			vec_clear_dirs.push_back("C:\\Users\\" + Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + +"\\Cache2");
+			vec_clear_dirs.push_back(Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + +"\\Cache2");
 		}*/
 
 		//Iterate directory list and clear each

@@ -18,7 +18,6 @@ namespace Util
 
 	//settings
 	extern bool b_logging_enabled;
-	extern bool b_elevated_remove_enabled;
 
 	//Logger
 	void ulog(std::string message);

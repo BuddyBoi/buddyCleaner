@@ -4,7 +4,6 @@ namespace Util
 {
 	//settings
 	bool b_logging_enabled;
-	bool b_elevated_remove_enabled;
 
 	//Logger
 	void ulog(std::string message)
@@ -43,12 +42,6 @@ namespace Util
 	//Delete system-protected files or in-use files
 	void file_elevated_delete(std::string path)
 	{
-		if (!b_elevated_remove_enabled)
-		{
-			ulog("Elevated remove is disabled.");
-			return;
-		}
-
 		//Building path with \\.\ before the directory. This (sometimes) allows for deletion even if in-use
 		std::string s_temp = "\\\\.\\" + path;
 

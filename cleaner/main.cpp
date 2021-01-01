@@ -1,7 +1,7 @@
-//For changing file properties
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "Cleaner.h"
 #include "Utility.h"
+#include <ShObjIdl_core.h>
 
 //Not used ATM
 void display_computer_info()
@@ -46,17 +46,29 @@ int main()
 	std::cout << "Clear Microsoft Edge cookies and cache=";
 	std::cin >> Cleaner::b_clean_edge;
 
+	std::cout << "Clear Microsoft Edge history=";
+	std::cin >> Cleaner::b_clean_edge_history;
+
 	std::cout << "Clear Google Chrome cookies and cache=";
 	std::cin >> Cleaner::b_clean_chrome;
+
+	std::cout << "Clear Google Chrome history=";
+	std::cin >> Cleaner::b_clean_chrome_history;
+
+	std::cout << "Clear Firefox cookies and cache=";
+	std::cin >> Cleaner::b_clean_firefox;
+
+	std::cout << "Clear Firefox history=";
+	std::cin >> Cleaner::b_clean_firefox_history;
 
 	std::cout << "Clear Opera cookies and cache=";
 	std::cin >> Cleaner::b_clean_opera;
 
+	std::cout << "Clear Opera history=";
+	std::cin >> Cleaner::b_clean_opera_history;
+
 	std::cout << "Disable hibernation mode=";
 	std::cin >> Cleaner::b_remove_hibernation;
-
-	std::cout << "Elevated removal(requires admin)=";
-	std::cin >> Util::b_elevated_remove_enabled;
 
 	std::cout << "Clear steam temp(requires clear temp directories on)=";
 	std::cin >> Cleaner::b_clear_steam_temp;
