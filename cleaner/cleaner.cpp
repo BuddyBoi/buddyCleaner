@@ -77,10 +77,22 @@ namespace Cleaner
 		{
 			vec_clear_dirs.push_back(Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + +"\\Cache2");
 
-			if (b_clean_firefox_history)
-			{
+			WIN32_FIND_DATAA findFileData;
+			std::string firefoxPath = "C:\\Users\\pless\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\*";
+			std::string profilePath;
+			HANDLE find = FindFirstFileA(firefoxPath.c_str(), &findFileData);
 
+			if (find != INVALID_HANDLE_VALUE)
+			{
+				//profilePath = findFileData.cFileName;
+				Util::ulog(findFileData.cFileName);
 			}
+			else
+			{
+				Util::ulog("Failed to find Mozilla Firefox Profile");
+			}
+
+			vec_delete_files.push_back("C:\\Users\\pless\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + profilePath + "\\test123.txt");
 		}
 
 		//opera
@@ -111,14 +123,11 @@ namespace Cleaner
 
 			if (b_clean_edge_history)
 			{
-
+				vec_delete_files.push_back(Util::s_user_dir + "\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\History");
+				vec_delete_files.push_back(Util::s_user_dir + "\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\History-journal");
+				vec_delete_files.push_back(Util::s_user_dir + "\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\History Provider Cache");
 			}
 		}
-
-		/*if (b_clean_firefox) adding this later my brain is small
-		{
-			vec_clear_dirs.push_back(Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + +"\\Cache2");
-		}*/
 
 		//Iterate directory list and clear each
 		for (std::string s : vec_clear_dirs)

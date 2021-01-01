@@ -64,6 +64,9 @@ int main()
 	std::cout << "Clear Firefox cookies and cache=";
 	std::cin >> Cleaner::b_clean_firefox;
 
+	std::cout << "Disable hibernation mode=";
+	std::cin >> Cleaner::b_remove_hibernation;
+
 	std::cout << "Clear Firefox history=";
 	std::cin >> Cleaner::b_clean_firefox_history;
 
