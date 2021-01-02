@@ -75,24 +75,30 @@ namespace Cleaner
 		//firefox
 		if (b_clean_firefox)
 		{
-			//vec_clear_dirs.push_back(Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + +"\\Cache2");
-
 			WIN32_FIND_DATAA findFileData;
 			std::string firefoxPath = Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\*";
-			std::string profilePath;
+			std::string profilePath = ".default-release";
 			HANDLE find = FindFirstFileA(firefoxPath.c_str(), &findFileData);
-
+			
+			//if needed ill add this to a method for the other firefox options
 			if (find != INVALID_HANDLE_VALUE)
 			{
-				//profilePath = findFileData.cFileName;
-				Util::ulog(findFileData.cFileName);
+				do
+				{
+					std::string fd(findFileData.cFileName);
+					std::string finalPath = fd;
+					if (finalPath.find(profilePath) != std::string::npos)
+					{
+						vec_clear_dirs.push_back(Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\entries");
+						vec_clear_dirs.push_back(Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\doomed");
+					}
+				} while (FindNextFileA(find, &findFileData));
+				FindClose(find);
 			}
 			else
 			{
 				Util::ulog("Failed to find Mozilla Firefox Profile");
 			}
-
-			vec_delete_files.push_back(Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + profilePath + "\\test123.txt");
 		}
 
 		//opera
