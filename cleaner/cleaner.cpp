@@ -86,8 +86,7 @@ namespace Cleaner
 				do
 				{
 					std::string fd(findFileData.cFileName);
-					std::string finalPath = fd;
-					if (finalPath.find(profilePath) != std::string::npos)
+					if (fd.find(profilePath) != std::string::npos)
 					{
 						vec_clear_dirs.push_back(Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\entries");
 						vec_clear_dirs.push_back(Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\doomed");
