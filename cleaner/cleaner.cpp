@@ -91,6 +91,10 @@ namespace Cleaner
 						vec_clear_dirs.push_back(Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\entries");
 						vec_clear_dirs.push_back(Util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\doomed");
 					}
+					else
+					{
+						Util::ulog("Failed to find Mozilla Firefox Profile");
+					}
 				} while (FindNextFileA(find, &findFileData));
 				FindClose(find);
 			}
