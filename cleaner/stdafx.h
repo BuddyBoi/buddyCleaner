@@ -8,6 +8,10 @@
 #include <time.h>
 #include <chrono>
 #include <thread>
+#include <ShObjIdl.h>
+#include <ShObjIdl_core.h>
+#include <ObjIdl.h>
+#include <ShlObj.h>
 
 #define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING 
 #include <experimental/filesystem>

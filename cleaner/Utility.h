@@ -1,7 +1,7 @@
 #pragma once
 #include "stdafx.h"
 
-namespace Util
+namespace util
 {
 	enum file_types
 	{	
@@ -35,10 +35,9 @@ namespace Util
 	void file_elevated_delete(std::string path);
 	void file_delete(std::string path);
 	void directory_clear(std::string directory);
+	std::string get_shortcut_path(std::string input_string);	
 
-	
-
-	namespace Registry
+	namespace registry
 	{
 		std::string registry_read(std::string reg_path, std::string reg_key, HKEY reg_section);
 	}

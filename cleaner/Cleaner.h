@@ -2,7 +2,7 @@
 #include "stdafx.h"
 #include "Utility.h"
 
-namespace Cleaner
+namespace cleaner
 {
 	//List of directories to clear
 	static std::vector<std::string> vec_clear_dirs;
@@ -21,7 +21,10 @@ namespace Cleaner
 	extern bool b_clean_firefox_history;
 	extern bool b_clean_opera;
 	extern bool b_clean_opera_history;
+	extern bool b_clean_downloads;
+	extern bool b_clean_shortcuts;
 
 	void clean_files();
-	void Cleanup();
+	void check_shortcuts();
+	void cleanup();
 }

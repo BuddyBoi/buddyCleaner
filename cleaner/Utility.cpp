@@ -1,6 +1,6 @@
 #include "Utility.h"
 
-namespace Util
+namespace util
 {
 	//settings
 	bool b_logging_enabled;
@@ -28,6 +28,7 @@ namespace Util
 		return ws_temp;
 	}	
 
+	//Change file type
 	void file_change_attributes(std::string path, file_types type)
 	{
 		SetFileAttributes(str_to_wstring(path).c_str(), type);
@@ -36,7 +37,7 @@ namespace Util
 	//checks if the path (file or directory) exists
 	bool path_exists(std::string path)
 	{
-		return std::experimental::filesystem::exists(path);
+		return GetFileAttributesA(path.c_str()) != INVALID_FILE_ATTRIBUTES;
 	}	
 
 	//Delete system-protected files or in-use files
@@ -45,12 +46,12 @@ namespace Util
 		//Building path with \\.\ before the directory. This (sometimes) allows for deletion even if in-use
 		std::string s_temp = "\\\\.\\" + path;
 
-		SetFileAttributes(Util::str_to_wstring(s_temp).c_str(), file_normal);
+		SetFileAttributes(util::str_to_wstring(s_temp).c_str(), file_normal);
 
 		try
 		{
 			//I'm not sure. Some files just refuse to be deleted. Will fix later
-			DeleteFile(Util::str_to_wstring(s_temp).c_str());
+			DeleteFile(util::str_to_wstring(s_temp).c_str());
 			std::experimental::filesystem::remove(path);
 		}
 		catch (std::exception e)
@@ -93,7 +94,48 @@ namespace Util
 		}
 	}	
 
-	namespace Registry
+	//Get path of shortcut - Obviously don't understand what this does as it randomly gives my non-ascii characters in the path without building result manually
+	std::string get_shortcut_path(std::string input_string)
+	{
+		IShellLinkA* link;
+		CoInitialize(0);
+		char tempPath[MAX_PATH];
+		std::wstring path = util::str_to_wstring(input_string);
+
+		HRESULT hr = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (LPVOID*)&link);
+		if (SUCCEEDED(hr))
+		{
+			IPersistFile* ipf;
+			hr = link->QueryInterface(IID_IPersistFile, (LPVOID*)&ipf);
+			if (SUCCEEDED(hr))
+			{
+				hr = ipf->Load(path.c_str(), STGM_READ);
+
+				if (SUCCEEDED(hr))
+				{
+					link->GetPath(tempPath, MAX_PATH, 0, SLGP_UNCPRIORITY | SLGP_RAWPATH);
+
+					char str_chars[] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z','\\',':','.', ' ', '(', ')', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
+
+					std::string result{};
+					for (char c : tempPath)
+					{
+						for (char x : str_chars)
+						{
+							if (x == c)
+								result += c;
+						}					
+					}
+						
+					result = result.substr(0, result.find_last_of('.')+4);
+					std::cout << "test: " << result << std::endl;
+					return result;
+				}
+			}
+		}
+	}
+
+	namespace registry
 	{
 		std::string registry_read(std::string reg_path, std::string reg_key, HKEY reg_section)
 		{
