@@ -128,7 +128,6 @@ namespace util
 					}
 						
 					result = result.substr(0, result.find_last_of('.')+4);
-					std::cout << "test: " << result << std::endl;
 					return result;
 				}
 			}
