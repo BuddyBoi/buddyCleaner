@@ -14,6 +14,8 @@
 #include <ObjIdl.h>
 #include <ShlObj.h>
 #include <sysinfoapi.h>
+#include <VersionHelpers.h>
+#include <WinBase.h>
 
 #define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING 
 #include <experimental/filesystem>

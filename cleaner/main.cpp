@@ -1,46 +1,44 @@
 ﻿#include "stdafx.h"
 #include "Cleaner.h"
 #include "Utility.h"
+#include "systeminfo.h"
 
-//Not used ATM
+//Setup needed before operations
+void setup_program()
+{
+	//Console
+	SetConsoleTitle(L"System Cleaner");
+
+	//get info to store
+	systeminfo::get_system_info();
+}
+
+//Display general computer info
 void display_computer_info()
 {
 	std::cout << "Computer Info:" << std::endl;
-
+		
 	//Motherboard info
-	printf("Motherboard: %s. Manufactured by %s.\n",
-		   util::registry::registry_read("SYSTEM\\HardwareConfig\\Current", "BaseBoardProduct", HKEY_LOCAL_MACHINE).c_str(),
-		   util::registry::registry_read("SYSTEM\\HardwareConfig\\Current", "BaseBoardManufacturer", HKEY_LOCAL_MACHINE).c_str());
+	printf("Motherboard: %s. Manufactured by %s.\n", systeminfo::s_mboard_name.c_str(), systeminfo::s_mboard_manufacturer.c_str());
 
-	//Processor info
-	SYSTEM_INFO s_info{};
-	GetSystemInfo(&s_info);
-	printf("Processor: %s. Manufactured by %s.\nProcessor Cores: %lu\n", 
-		   util::registry::registry_read("HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", "ProcessorNameString", HKEY_LOCAL_MACHINE).c_str(),
-		   util::registry::registry_read("HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", "VendorIdentifier", HKEY_LOCAL_MACHINE).c_str(),
-		   s_info.dwNumberOfProcessors);
+	//Processor info	
+	printf("Processor: %s. Manufactured by %s.\nProcessor Cores: %lu\n", systeminfo::s_cpu_name.c_str(), systeminfo::s_cpu_manufacturer.c_str(), systeminfo::dw_cpu_cores);
 
 	//Graphics card info
-	printf("Graphics Card: %s\n",
-		util::registry::registry_read("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\WinSAT", "PrimaryAdapterString", HKEY_LOCAL_MACHINE).c_str());
+	printf("Graphics Card: %s\n", systeminfo::s_gpu_name.c_str());
 
-	//Ram
-	ULONGLONG kbRam{};
-	GetPhysicallyInstalledSystemMemory(&kbRam);
-	ULONGLONG gbRam = ((kbRam / 1024) / 1024);
-	std::cout << "Ram: " << gbRam << "GB" << std::endl;
-	
+	//Memory
+	std::cout << "Ram: " << systeminfo::u_memory_gb << "GB" << std::endl;	
 
-	//Boot info
-	std::string s_boot_temp = util::registry::registry_read("SYSTEM\\CurrentControlSet\\Control\\SecureBoot\\State", "UEFISecureBootEnabled", HKEY_LOCAL_MACHINE).c_str();
-	bool secure_boot_enabled = !s_boot_temp.empty();
-	std::cout << std::boolalpha << "Secure boot enabled: " << secure_boot_enabled << std::endl;
+	//Boot
+	std::cout << std::boolalpha << "Secure boot enabled: " << systeminfo::b_secureboot << std::endl;
 
 	std::cout << std::endl << std::endl;
 }
 
 int main()
 {
+	setup_program();
 	display_computer_info();
 
 	//Display Message

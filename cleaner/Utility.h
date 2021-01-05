@@ -10,12 +10,6 @@ namespace util
 		file_normal = 0x80,				
 	};
 
-	//Computer and user variables
-	static std::string s_computer_name = getenv("COMPUTERNAME");
-	static std::string s_user_dir = getenv("USERPROFILE");
-	static std::string s_directory_temp = getenv("TEMP");
-	static std::string s_windows_dir = getenv("SYSTEMROOT");
-
 	//settings
 	extern bool b_logging_enabled;
 

@@ -1,4 +1,5 @@
 #include "cleaner.h"
+#include "systeminfo.h"
 
 namespace cleaner
 {
@@ -25,14 +26,14 @@ namespace cleaner
 		//Windows temp
 		if (b_clear_temp)
 		{
-			vec_clear_dirs.push_back(util::s_directory_temp);
+			vec_clear_dirs.push_back(systeminfo::s_directory_temp);
 			vec_clear_dirs.push_back("C:\\Windows\\Temp");
 			vec_clear_dirs.push_back("C:\\Windows\\SoftwareDistribution\\Download");
 			vec_clear_dirs.push_back("C:\\Windows\\Minidump");
 			vec_clear_dirs.push_back("C:\\Windows\\Prefetch");
-			vec_clear_dirs.push_back(util::s_user_dir + "\\AppData\\Local\\Microsoft\\Windows\\History");
-			vec_clear_dirs.push_back(util::s_user_dir + "\\AppData\\Local\\Microsoft\\Windows\\WebCache");
-			vec_clear_dirs.push_back(util::s_user_dir + "\\AppData\\Roaming\\Microsoft\\Windows\\Recent\\AutomaticDestinations\\");
+			vec_clear_dirs.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Microsoft\\Windows\\History");
+			vec_clear_dirs.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Microsoft\\Windows\\WebCache");
+			vec_clear_dirs.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Microsoft\\Windows\\Recent\\AutomaticDestinations\\");
 
 			vec_delete_files.push_back("C:\\Windows\\Debug\\PASSWD.LOG");
 		}		
@@ -40,7 +41,7 @@ namespace cleaner
 		//Downloads folder
 		if (b_clean_downloads)
 		{
-			vec_clear_dirs.push_back(util::s_user_dir + "\\Downloads\\");
+			vec_clear_dirs.push_back(systeminfo::s_user_dir + "\\Downloads\\");
 		}
 
 		//steam
@@ -58,7 +59,7 @@ namespace cleaner
 		//Clear the recycling bin
 		if (b_empty_recycling_bin)
 		{
-			if (SHEmptyRecycleBin(NULL, util::str_to_wstring(util::s_windows_dir).c_str(), SHERB_NOCONFIRMATION != 0)) //ignore
+			if (SHEmptyRecycleBin(NULL, util::str_to_wstring(systeminfo::s_windows_dir).c_str(), SHERB_NOCONFIRMATION != 0)) //ignore
 			{
 				util::ulog("Failed to empty recycling bin");
 			}
@@ -71,9 +72,9 @@ namespace cleaner
 		//Chrome
 		if (b_clean_chrome)
 		{
-			vec_clear_dirs.push_back(util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cache");
-			vec_delete_files.push_back(util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies");
-			vec_delete_files.push_back(util::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies-journal");
+			vec_clear_dirs.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cache");
+			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies");
+			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies-journal");
 
 			if (b_clean_chrome_history)
 			{
@@ -85,7 +86,7 @@ namespace cleaner
 		if (b_clean_firefox)
 		{
 			WIN32_FIND_DATAA findFileData;
-			std::string firefoxPath = util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\*";
+			std::string firefoxPath = systeminfo::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\*";
 			std::string profilePath = ".default-release";
 			HANDLE find = FindFirstFileA(firefoxPath.c_str(), &findFileData);
 			
@@ -97,9 +98,9 @@ namespace cleaner
 					std::string fd(findFileData.cFileName);
 					if (fd.find(profilePath) != std::string::npos)
 					{
-						vec_clear_dirs.push_back(util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\entries");
-						vec_clear_dirs.push_back(util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\doomed");
-						vec_delete_files.push_back(util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\index");
+						vec_clear_dirs.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\entries");
+						vec_clear_dirs.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\doomed");
+						vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\index");
 						break;
 					}
 				} while (FindNextFileA(find, &findFileData));
@@ -114,41 +115,41 @@ namespace cleaner
 		//opera
 		if (b_clean_opera)
 		{
-			vec_delete_files.push_back(util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Cookies");
-			vec_delete_files.push_back(util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Cookies-journal");
-			vec_delete_files.push_back(util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Extension Cookies");
-			vec_delete_files.push_back(util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Extension Cookies-journal");
-			vec_delete_files.push_back(util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Favicons");
-			vec_delete_files.push_back(util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Favicons-journal");
+			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Cookies");
+			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Cookies-journal");
+			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Extension Cookies");
+			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Extension Cookies-journal");
+			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Favicons");
+			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Favicons-journal");
 
 			if (b_clean_opera_history)
 			{
-				vec_delete_files.push_back(util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Media History");
-				vec_delete_files.push_back(util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Media History-journal");
-				vec_delete_files.push_back(util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\History");
-				vec_delete_files.push_back(util::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\History-journal");
+				vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Media History");
+				vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Media History-journal");
+				vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\History");
+				vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\History-journal");
 			}
 		}
 
 		//edge
 		if (b_clean_edge)
 		{
-			vec_clear_dirs.push_back(util::s_user_dir + "\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\Cache");
-			vec_delete_files.push_back(util::s_user_dir + "\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\Cookies");
-			vec_delete_files.push_back(util::s_user_dir + "\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\Cookies-journal");
+			vec_clear_dirs.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\Cache");
+			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\Cookies");
+			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\Cookies-journal");
 
 			if (b_clean_edge_history)
 			{
-				vec_delete_files.push_back(util::s_user_dir + "\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\History");
-				vec_delete_files.push_back(util::s_user_dir + "\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\History-journal");
-				vec_delete_files.push_back(util::s_user_dir + "\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\History Provider Cache");
+				vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\History");
+				vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\History-journal");
+				vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\History Provider Cache");
 			}
 		}
 
 		//check shortcuts - experimental
 		if (b_clean_shortcuts)
 		{
-			std::string str_desktop_dir = util::s_user_dir + "\\Desktop\\";
+			std::string str_desktop_dir = systeminfo::s_user_dir + "\\Desktop\\";
 			for (const auto& entry : std::experimental::filesystem::directory_iterator(str_desktop_dir))
 			{
 				try
