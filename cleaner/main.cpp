@@ -2,6 +2,7 @@
 #include "Cleaner.h"
 #include "Utility.h"
 #include <ShObjIdl_core.h>
+#include <sysinfoapi.h>
 
 //Not used ATM
 void display_computer_info()
@@ -17,6 +18,17 @@ void display_computer_info()
 	printf("Processor: %s. Manufactured by %s.\n", 
 		   util::registry::registry_read("HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", "ProcessorNameString", HKEY_LOCAL_MACHINE).c_str(),
 		   util::registry::registry_read("HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", "VendorIdentifier", HKEY_LOCAL_MACHINE).c_str());
+
+	//Graphics card info
+	printf("Graphcis Card: %s\n",
+		util::registry::registry_read("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\WinSAT", "PrimaryAdapterString", HKEY_LOCAL_MACHINE).c_str());
+
+	//Ram
+	ULONGLONG kbRam{};
+	GetPhysicallyInstalledSystemMemory(&kbRam);
+	ULONGLONG gbRam = ((kbRam / 1024) / 1024);
+	std::cout << "Ram: " << gbRam << "GB" << std::endl;
+	
 
 	//Boot info
 	std::string s_boot_temp = util::registry::registry_read("SYSTEM\\CurrentControlSet\\Control\\SecureBoot\\State", "UEFISecureBootEnabled", HKEY_LOCAL_MACHINE).c_str();
