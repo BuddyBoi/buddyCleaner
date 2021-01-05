@@ -1,8 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Cleaner.h"
 #include "Utility.h"
-#include <ShObjIdl_core.h>
-#include <sysinfoapi.h>
 
 //Not used ATM
 void display_computer_info()
@@ -15,12 +13,15 @@ void display_computer_info()
 		   util::registry::registry_read("SYSTEM\\HardwareConfig\\Current", "BaseBoardManufacturer", HKEY_LOCAL_MACHINE).c_str());
 
 	//Processor info
-	printf("Processor: %s. Manufactured by %s.\n", 
+	SYSTEM_INFO s_info{};
+	GetSystemInfo(&s_info);
+	printf("Processor: %s. Manufactured by %s.\nProcessor Cores: %lu\n", 
 		   util::registry::registry_read("HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", "ProcessorNameString", HKEY_LOCAL_MACHINE).c_str(),
-		   util::registry::registry_read("HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", "VendorIdentifier", HKEY_LOCAL_MACHINE).c_str());
+		   util::registry::registry_read("HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", "VendorIdentifier", HKEY_LOCAL_MACHINE).c_str(),
+		   s_info.dwNumberOfProcessors);
 
 	//Graphics card info
-	printf("Graphcis Card: %s\n",
+	printf("Graphics Card: %s\n",
 		util::registry::registry_read("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\WinSAT", "PrimaryAdapterString", HKEY_LOCAL_MACHINE).c_str());
 
 	//Ram

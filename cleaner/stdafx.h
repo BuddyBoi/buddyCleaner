@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <Windows.h>
+#include <Psapi.h>
 #include <fileapi.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,6 +13,7 @@
 #include <ShObjIdl_core.h>
 #include <ObjIdl.h>
 #include <ShlObj.h>
+#include <sysinfoapi.h>
 
 #define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING 
 #include <experimental/filesystem>
