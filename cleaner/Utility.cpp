@@ -134,6 +134,32 @@ namespace util
 		}
 	}
 
+	//returns a files name based on what you need the name to contain
+	std::string get_first_file_name(std::string path, std::string findName)
+	{
+		WIN32_FIND_DATAA findFileData;
+		HANDLE find = FindFirstFileA(path.c_str(), &findFileData);
+
+		if (find != INVALID_HANDLE_VALUE)
+		{
+			do
+			{
+				std::string result(findFileData.cFileName);
+				if (result.find(findName) != std::string::npos)
+				{
+					return result;
+					break;
+				}
+			} while (FindNextFileA(find, &findFileData));
+			FindClose(find);
+		}
+		else
+		{
+			return 0;
+		}
+		return 0;
+	}
+
 	namespace registry
 	{
 		std::string registry_read(std::string reg_path, std::string reg_key, HKEY reg_section)

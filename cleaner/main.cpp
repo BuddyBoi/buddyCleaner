@@ -90,8 +90,14 @@ int main()
 	std::cout << "Clear Opera history=";
 	std::cin >> cleaner::b_clean_opera_history;	
 
+	std::cout << "Clear Spotify cache=";
+	std::cin >> cleaner::b_clean_spotify;
+
 	std::cout << "Remove broken shortcuts=";
 	std::cin >> cleaner::b_clean_shortcuts;
+
+	std::cout << "Clear DNS Cache=";
+	std::cin >> cleaner::b_clear_dns_cache;
 
 	//Start cleaner timer
 	util::i_time_clean_start = util::time_get();

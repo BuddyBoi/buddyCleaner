@@ -30,6 +30,7 @@ namespace util
 	void file_delete(std::string path);
 	void directory_clear(std::string directory);
 	std::string get_shortcut_path(std::string input_string);	
+	std::string get_first_file_name(std::string path, std::string findName);
 
 	namespace registry
 	{

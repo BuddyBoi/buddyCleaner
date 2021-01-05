@@ -24,6 +24,8 @@ namespace cleaner
 	extern bool b_clean_downloads;
 	extern bool b_clean_shortcuts;
 	extern bool b_clear_clipboard;
+	extern bool b_clear_dns_cache;
+	extern bool b_clean_spotify;
 
 	void clean_files();
 	void check_shortcuts();

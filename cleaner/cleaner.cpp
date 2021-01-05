@@ -19,6 +19,8 @@ namespace cleaner
 	bool b_clean_downloads;
 	bool b_clean_shortcuts;
 	bool b_clear_clipboard;
+	bool b_clear_dns_cache;
+	bool b_clean_spotify;
 
 	//Remove all temp files in temp directories
 	void clean_files()
@@ -85,31 +87,13 @@ namespace cleaner
 		//firefox
 		if (b_clean_firefox)
 		{
-			WIN32_FIND_DATAA findFileData;
 			std::string firefoxPath = systeminfo::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\*";
 			std::string profilePath = ".default-release";
-			HANDLE find = FindFirstFileA(firefoxPath.c_str(), &findFileData);
-			
-			//if needed ill add this to a method for the other firefox options
-			if (find != INVALID_HANDLE_VALUE)
-			{
-				do
-				{
-					std::string fd(findFileData.cFileName);
-					if (fd.find(profilePath) != std::string::npos)
-					{
-						vec_clear_dirs.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\entries");
-						vec_clear_dirs.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\doomed");
-						vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\index");
-						break;
-					}
-				} while (FindNextFileA(find, &findFileData));
-				FindClose(find);
-			}
-			else
-			{
-				util::ulog("Failed to find Mozilla Firefox Profile");
-			}
+
+			std::string fd = util::get_first_file_name(firefoxPath, profilePath);
+			vec_clear_dirs.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\entries");
+			vec_clear_dirs.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\doomed");
+			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\index");
 		}
 
 		//opera
@@ -190,6 +174,29 @@ namespace cleaner
 			{
 				util::ulog("Failed to clear clipboard");
 			}
+		}
+
+		//clears dns cache
+		if (b_clear_dns_cache)
+		{
+			system("ipconfig /flushdns");
+		}
+
+		//spotify cache
+		if (b_clean_spotify)
+		{
+			//windows version
+			vec_clear_dirs.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Packages\\SpotifyAB.SpotifyMusic_zpdnekdrzrea0\\LocalCache\\Spotify\\Data");
+			vec_clear_dirs.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Packages\\SpotifyAB.SpotifyMusic_zpdnekdrzrea0\\LocalCache\\Spotify\\Browser\\Cache");
+			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Packages\\SpotifyAB.SpotifyMusic_zpdnekdrzrea0\\LocalCache\\Spotify\\Browser\\Cookies");
+			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Packages\\SpotifyAB.SpotifyMusic_zpdnekdrzrea0\\LocalCache\\Spotify\\Browser\\Cookies-journal");
+
+			//official version
+			std::string profilePath = "-user";
+			std::string spotifyPath = systeminfo::s_user_dir + "\\AppData\\Roaming\\Spotify\\Users\\*";
+
+			std::string userName = util::get_first_file_name(spotifyPath, profilePath);
+			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Spotify\\Users\\" + userName + "\\local-files.bnk");
 		}
 
 		//Iterate directory list and clear each
