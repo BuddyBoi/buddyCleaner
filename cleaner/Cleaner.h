@@ -23,6 +23,7 @@ namespace cleaner
 	extern bool b_clean_opera_history;
 	extern bool b_clean_downloads;
 	extern bool b_clean_shortcuts;
+	extern bool b_clear_clipboard;
 
 	void clean_files();
 	void check_shortcuts();

@@ -49,6 +49,9 @@ int main()
 	std::cout << "Empty Recycling Bin=";
 	std::cin >> cleaner::b_empty_recycling_bin;
 
+	std::cout << "Clear Clipboard=";
+	std::cin >> cleaner::b_clear_clipboard;
+
 	std::cout << "Clear downloads folder=";
 	std::cin >> cleaner::b_clean_downloads;
 

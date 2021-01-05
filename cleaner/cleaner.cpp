@@ -17,6 +17,7 @@ namespace cleaner
 	bool b_clean_opera_history;
 	bool b_clean_downloads;
 	bool b_clean_shortcuts;
+	bool b_clear_clipboard;
 
 	//Remove all temp files in temp directories
 	void clean_files()
@@ -98,10 +99,8 @@ namespace cleaner
 					{
 						vec_clear_dirs.push_back(util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\entries");
 						vec_clear_dirs.push_back(util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\doomed");
-					}
-					else
-					{
-						util::ulog("Failed to find Mozilla Firefox Profile");
+						vec_delete_files.push_back(util::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\index");
+						break;
 					}
 				} while (FindNextFileA(find, &findFileData));
 				FindClose(find);
@@ -174,6 +173,21 @@ namespace cleaner
 					}
 				}
 				catch (std::exception e) {}
+			}
+		}
+
+		//clears clipboard
+		if (b_clear_clipboard)
+		{
+			if (OpenClipboard(NULL) != 0)
+			{
+				EmptyClipboard();
+				CloseClipboard();
+				util::ulog("Successfully cleared clipboard");
+			}
+			else
+			{
+				util::ulog("Failed to clear clipboard");
 			}
 		}
 
