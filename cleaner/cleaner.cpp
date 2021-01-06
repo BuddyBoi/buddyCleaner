@@ -74,44 +74,73 @@ namespace cleaner
 		//Chrome
 		if (b_clean_chrome)
 		{
-			vec_clear_dirs.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cache");
-			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies");
-			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies-journal");
-
-			if (b_clean_chrome_history)
+			if (std::experimental::filesystem::is_directory(systeminfo::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default"))
 			{
+				vec_clear_dirs.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cache");
+				vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies");
+				vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies-journal");
 
+				if (b_clean_chrome_history)
+				{
+
+				}
+				else
+				{
+					util::ulog("Chrome directory does not exist");
+				}
+			}
+			else
+			{
+				util::ulog("Chrome directory does not exist");
 			}
 		}
 
 		//firefox
 		if (b_clean_firefox)
 		{
-			std::string firefoxPath = systeminfo::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\*";
-			std::string profilePath = ".default-release";
+			if (std::experimental::filesystem::is_directory(systeminfo::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles"))
+			{
+				std::string firefoxPath = systeminfo::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\*";
+				std::string profilePath = ".default-release";
 
-			std::string fd = util::get_first_file_name(firefoxPath, profilePath);
-			vec_clear_dirs.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\entries");
-			vec_clear_dirs.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\doomed");
-			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\index");
+				std::string fd = util::get_first_file_name(firefoxPath, profilePath);
+				vec_clear_dirs.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\entries");
+				vec_clear_dirs.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\doomed");
+				vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + fd + "\\cache2\\index");
+			}
+			else
+			{
+				util::ulog("Firefox directory does not exist");
+			}
 		}
 
 		//opera
 		if (b_clean_opera)
 		{
-			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Cookies");
-			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Cookies-journal");
-			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Extension Cookies");
-			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Extension Cookies-journal");
-			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Favicons");
-			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Favicons-journal");
-
-			if (b_clean_opera_history)
+			if (std::experimental::filesystem::is_directory(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable"))
 			{
-				vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Media History");
-				vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Media History-journal");
-				vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\History");
-				vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\History-journal");
+				vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Cookies");
+				vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Cookies-journal");
+				vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Extension Cookies");
+				vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Extension Cookies-journal");
+				vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Favicons");
+				vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Favicons-journal");
+
+				if (b_clean_opera_history)
+				{
+					vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Media History");
+					vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\Media History-journal");
+					vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\History");
+					vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Opera Software\\Opera Stable\\History-journal");
+				}
+				else
+				{
+					util::ulog("Opera directory does not exist");
+				}
+			}
+			else
+			{
+				util::ulog("Opera directory does not exist");
 			}
 		}
 
@@ -198,13 +227,12 @@ namespace cleaner
 				util::ulog("Spotify windows directory does not exist");
 			}
 			
-
 			//official version
-			std::string profilePath = "-user";
-			std::string spotifyPath = systeminfo::s_user_dir + "\\AppData\\Roaming\\Spotify\\Users\\*";
-			std::string userName = util::get_first_file_name(spotifyPath, profilePath);
-			if (std::experimental::filesystem::is_directory(systeminfo::s_user_dir + "\\AppData\\Roaming\\Spotify\\Users\\" + userName))
+			if (std::experimental::filesystem::is_directory(systeminfo::s_user_dir + "\\AppData\\Roaming\\Spotify\\Users\\"))
 			{
+				std::string profilePath = "-user";
+				std::string spotifyPath = systeminfo::s_user_dir + "\\AppData\\Roaming\\Spotify\\Users\\*";
+				std::string userName = util::get_first_file_name(spotifyPath, profilePath);
 				vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Spotify\\Users\\" + userName + "\\local-files.bnk");
 			}
 			else
