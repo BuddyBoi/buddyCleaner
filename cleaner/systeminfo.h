@@ -29,4 +29,3 @@ namespace systeminfo
 
 	void get_system_info();
 }
-

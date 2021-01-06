@@ -61,7 +61,7 @@ namespace cleaner
 		//Clear the recycling bin
 		if (b_empty_recycling_bin)
 		{
-			if (SHEmptyRecycleBin(NULL, util::str_to_wstring(systeminfo::s_windows_dir).c_str(), SHERB_NOCONFIRMATION != 0)) //ignore
+			if (SHEmptyRecycleBin(NULL, util::str_to_wstring(systeminfo::s_windows_dir).c_str(), SHERB_NOCONFIRMATION != 0)) 
 			{
 				util::ulog("Failed to empty recycling bin");
 			}
@@ -186,17 +186,31 @@ namespace cleaner
 		if (b_clean_spotify)
 		{
 			//windows version
-			vec_clear_dirs.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Packages\\SpotifyAB.SpotifyMusic_zpdnekdrzrea0\\LocalCache\\Spotify\\Data");
-			vec_clear_dirs.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Packages\\SpotifyAB.SpotifyMusic_zpdnekdrzrea0\\LocalCache\\Spotify\\Browser\\Cache");
-			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Packages\\SpotifyAB.SpotifyMusic_zpdnekdrzrea0\\LocalCache\\Spotify\\Browser\\Cookies");
-			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Packages\\SpotifyAB.SpotifyMusic_zpdnekdrzrea0\\LocalCache\\Spotify\\Browser\\Cookies-journal");
+			if (std::experimental::filesystem::is_directory(systeminfo::s_user_dir + "\\AppData\\Local\\Packages\\SpotifyAB.SpotifyMusic_zpdnekdrzrea0"))
+			{
+				vec_clear_dirs.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Packages\\SpotifyAB.SpotifyMusic_zpdnekdrzrea0\\LocalCache\\Spotify\\Data");
+				vec_clear_dirs.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Packages\\SpotifyAB.SpotifyMusic_zpdnekdrzrea0\\LocalCache\\Spotify\\Browser\\Cache");
+				vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Packages\\SpotifyAB.SpotifyMusic_zpdnekdrzrea0\\LocalCache\\Spotify\\Browser\\Cookies");
+				vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Local\\Packages\\SpotifyAB.SpotifyMusic_zpdnekdrzrea0\\LocalCache\\Spotify\\Browser\\Cookies-journal");
+			}
+			else
+			{
+				util::ulog("Spotify windows directory does not exist");
+			}
+			
 
 			//official version
 			std::string profilePath = "-user";
 			std::string spotifyPath = systeminfo::s_user_dir + "\\AppData\\Roaming\\Spotify\\Users\\*";
-
 			std::string userName = util::get_first_file_name(spotifyPath, profilePath);
-			vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Spotify\\Users\\" + userName + "\\local-files.bnk");
+			if (std::experimental::filesystem::is_directory(systeminfo::s_user_dir + "\\AppData\\Roaming\\Spotify\\Users\\" + userName))
+			{
+				vec_delete_files.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Spotify\\Users\\" + userName + "\\local-files.bnk");
+			}
+			else
+			{
+				util::ulog("Spotify desktop directory does not exist");
+			}
 		}
 
 		//Iterate directory list and clear each
