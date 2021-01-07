@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cleaner", "cleaner\cleaner.vcxproj", "{FFD6FBE1-6CBC-4F6A-8D55-9E8E286DBDF2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cleanerMFC", "cleanerMFC\cleanerMFC.vcxproj", "{00627CA2-95CB-4F78-BE2A-45ECD23F4D82}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -27,6 +29,16 @@ Global
 		{FFD6FBE1-6CBC-4F6A-8D55-9E8E286DBDF2}.Release|x64.Build.0 = Release|x64
 		{FFD6FBE1-6CBC-4F6A-8D55-9E8E286DBDF2}.Release|x86.ActiveCfg = Release|Win32
 		{FFD6FBE1-6CBC-4F6A-8D55-9E8E286DBDF2}.Release|x86.Build.0 = Release|Win32
+		{00627CA2-95CB-4F78-BE2A-45ECD23F4D82}.Debug|ARM.ActiveCfg = Debug|Win32
+		{00627CA2-95CB-4F78-BE2A-45ECD23F4D82}.Debug|x64.ActiveCfg = Debug|x64
+		{00627CA2-95CB-4F78-BE2A-45ECD23F4D82}.Debug|x64.Build.0 = Debug|x64
+		{00627CA2-95CB-4F78-BE2A-45ECD23F4D82}.Debug|x86.ActiveCfg = Debug|Win32
+		{00627CA2-95CB-4F78-BE2A-45ECD23F4D82}.Debug|x86.Build.0 = Debug|Win32
+		{00627CA2-95CB-4F78-BE2A-45ECD23F4D82}.Release|ARM.ActiveCfg = Release|Win32
+		{00627CA2-95CB-4F78-BE2A-45ECD23F4D82}.Release|x64.ActiveCfg = Release|x64
+		{00627CA2-95CB-4F78-BE2A-45ECD23F4D82}.Release|x64.Build.0 = Release|x64
+		{00627CA2-95CB-4F78-BE2A-45ECD23F4D82}.Release|x86.ActiveCfg = Release|Win32
+		{00627CA2-95CB-4F78-BE2A-45ECD23F4D82}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
