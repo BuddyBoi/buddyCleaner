@@ -11,12 +11,10 @@ namespace util
 	//Logger
 	void ulog(std::string message)
 	{
-		if (!b_logging_enabled)
-			return;
-
-		std::string s_to_log = ("Log: %s\n", message);
+		//std::string s_to_log = ("Log: %s\n", message);
 		CcleanerMFCDlg m;
-		m.CListBoxLog.AddString(util::str_to_wstring(s_to_log).c_str());
+		m.CListBoxLog.AddString(L"Log: %s");
+		m.CListBoxLog.AddString(util::str_to_wstring(message).c_str());
 	}
 
 	//Timer

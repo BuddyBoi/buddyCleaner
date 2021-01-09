@@ -30,6 +30,7 @@ protected:
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
+	afx_msg void OnBnClickedButton1();
 	DECLARE_MESSAGE_MAP()
 public:
 	// Listbox for logging
@@ -52,5 +53,23 @@ public:
 	BOOL Chk_ClearClipboard;
 	BOOL Chk_ClearDNS;
 	BOOL Chk_CleanSpotify;
-	afx_msg void OnBnClickedButton1();
+	CButton chk_test123;
+	CButton chk_ClearClipboard;
+	CButton btn_StartCleaner;
+	CButton chk_FirefoxHistory;
+	CButton chk_FirefoxCookies;
+	CButton chk_ChromeHistory;
+	CButton chk_ChromeCookies;
+	CButton chk_EdgeHistory;
+	CButton chk_EdgeCookies;
+	CButton chk_ClearRecycling;
+	CButton chk_RemoveHibernation;
+	CButton chk_ClearSteamTemp;
+	CButton chk_WindowsTemp;
+	CButton chk_OperaHistory;
+	CButton chk_OperaCookies;
+	CButton chk_Downloads;
+	CButton chk_Shortcuts;
+	CButton chk_DNS;
+	CButton chk_Spotify;
 };

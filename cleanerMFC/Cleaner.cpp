@@ -23,6 +23,7 @@ namespace cleaner
 			vec_clear_dirs.push_back(systeminfo::s_user_dir + "\\AppData\\Roaming\\Microsoft\\Windows\\Recent\\AutomaticDestinations\\");
 
 			vec_delete_files.push_back("C:\\Windows\\Debug\\PASSWD.LOG");
+
 		}
 
 		//Downloads folder
@@ -176,19 +177,20 @@ namespace cleaner
 		}
 
 		//clears clipboard
-		if (m_form.Chk_ClearClipboard)
+		if (m_form.chk_ClearClipboard.GetCheck())
 		{
 			if (OpenClipboard(NULL) != 0)
 			{
 				EmptyClipboard();
 				CloseClipboard();
-				util::ulog("Successfully cleared clipboard");
+				m_form.CListBoxLog.AddString(L"Successfully cleared clipboard");
 			}
 			else
-			{
-				util::ulog("Failed to clear clipboard");
+				{
+				m_form.CListBoxLog.AddString(L"Failed to clear clipboard");
 			}
 		}
+
 
 		//clears dns cache
 		if (m_form.Chk_ClearDNS)
