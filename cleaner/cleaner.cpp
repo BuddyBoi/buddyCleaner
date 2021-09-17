@@ -252,12 +252,6 @@ namespace cleaner
 		}
 	}
 
-	//Check for broken or empty shortcuts on the user's desktop
-	void check_shortcuts()
-	{
-		
-	}
-
 	//Start method for cleaner
 	void cleanup()
 	{

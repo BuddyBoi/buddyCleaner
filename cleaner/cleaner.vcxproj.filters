@@ -15,13 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Utility.cpp">
+    <ClCompile Include="utility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Cleaner.cpp">
+    <ClCompile Include="cleaner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="systeminfo.cpp">
@@ -29,13 +29,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Utility.h">
+    <ClInclude Include="utility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Cleaner.h">
+    <ClInclude Include="cleaner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="systeminfo.h">

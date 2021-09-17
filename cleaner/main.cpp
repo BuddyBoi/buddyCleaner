@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
-#include "Cleaner.h"
-#include "Utility.h"
+#include "cleaner.h"
+#include "utility.h"
 #include "systeminfo.h"
 
 //Setup needed before operations
@@ -93,7 +93,7 @@ int main()
 	std::cout << "Clear Spotify cache=";
 	std::cin >> cleaner::b_clean_spotify;
 
-	std::cout << "Remove broken shortcuts=";
+	std::cout << "Remove broken shortcuts(Experimental)=";
 	std::cin >> cleaner::b_clean_shortcuts;
 
 	std::cout << "Clear DNS Cache=";

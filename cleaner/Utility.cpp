@@ -1,4 +1,4 @@
-#include "Utility.h"
+#include "utility.h"
 
 namespace util
 {
@@ -94,7 +94,7 @@ namespace util
 		}
 	}	
 
-	//Get path of shortcut - Obviously don't understand what this does as it randomly gives my non-ascii characters in the path without building result manually
+	//Get path of shortcut
 	std::string get_shortcut_path(std::string input_string)
 	{
 		IShellLinkA* link;
@@ -126,7 +126,7 @@ namespace util
 								result += c;
 						}					
 					}
-						
+
 					result = result.substr(0, result.find_last_of('.')+4);
 					return result;
 				}

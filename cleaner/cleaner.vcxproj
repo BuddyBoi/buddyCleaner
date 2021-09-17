@@ -200,16 +200,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Cleaner.cpp" />
+    <ClCompile Include="cleaner.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="systeminfo.cpp" />
-    <ClCompile Include="Utility.cpp" />
+    <ClCompile Include="utility.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Cleaner.h" />
+    <ClInclude Include="cleaner.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="systeminfo.h" />
-    <ClInclude Include="Utility.h" />
+    <ClInclude Include="utility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

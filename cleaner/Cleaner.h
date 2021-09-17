@@ -28,6 +28,5 @@ namespace cleaner
 	extern bool b_clean_spotify;
 
 	void clean_files();
-	void check_shortcuts();
 	void cleanup();
 }
